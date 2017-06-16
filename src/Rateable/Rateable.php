@@ -13,6 +13,11 @@ trait Rateable
         return $this->morphMany('willvincent\Rateable\Rating', 'rateable');
     }
 
+    public function users()
+    {
+        return $this->hasMany('willvincent\Rateable\Rating', 'user_id');
+    }
+
     public function averageRating($round = null)
     {
         $rating = $this->ratings()->where('approved', TRUE)->avg('rating');
@@ -47,7 +52,7 @@ trait Rateable
 
     public function userRatings()
     {
-        return $this->ratings()->where('approved', TRUE)->where('user_id', \Auth::id())->get();
+        return $this->users()->where('approved', TRUE)->where('user_id', \Auth::id())->get();
     }
 
     public function ratingPercent($max = 5)
