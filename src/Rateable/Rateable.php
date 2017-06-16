@@ -30,6 +30,11 @@ trait Rateable
         return $this->ratings()->where('approved', TRUE)->sum('rating');
     }
 
+    public function getRatings()
+    {
+        return $this->ratings()->where('approved', TRUE)->get();
+    }
+
     public function userAverageRating()
     {
         return $this->ratings()->where('approved', TRUE)->where('user_id', \Auth::id())->avg('rating');
@@ -38,6 +43,11 @@ trait Rateable
     public function userSumRating()
     {
         return $this->ratings()->where('approved', TRUE)->where('user_id', \Auth::id())->sum('rating');
+    }
+
+    public function userRatings()
+    {
+        return $this->ratings()->where('approved', TRUE)->where('user_id', \Auth::id())->get();
     }
 
     public function ratingPercent($max = 5)
@@ -58,6 +68,11 @@ trait Rateable
         return $this->sumRating();
     }
 
+    public function getUserRatingsAttribute()
+    {
+        return $this->userRatings();
+    }
+
     public function getUserAverageRatingAttribute()
     {
         return $this->userAverageRating();
@@ -66,6 +81,11 @@ trait Rateable
     public function getUserSumRatingAttribute()
     {
         return $this->userSumRating();
+    }
+
+    public function getRatingsAttribute()
+    {
+        return $this->getRatings();
     }
 
 }
